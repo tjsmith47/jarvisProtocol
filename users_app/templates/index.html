@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Description" content="Enter your description here"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Jarvis Protocol User Dashboard</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/index_style.css' %}">
+</head>
+<body>
+    <div class="greeting">
+        <h1>Welcome to Jarvis Protocol.</h1>
+        <h2>Peep our Crew:</h2>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email Address</th>
+                <th>Password</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in all_users %}
+            <tr>
+                <td>{{user.id}}</td>
+                <td>{{user.first_name}}</td>
+                <td>{{user.last_name}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.password}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <em></em>
+    <h2>Join the Crew!</h2>
+    {% if messages %}
+    <ul class="message">
+        {% for messages in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="register">
+        <form action='/create' method='POST' class=form-group>
+            {% csrf_token %}
+            <!-- Title Input Field -->
+            <label for="first_name">First Name: </label>
+            <input type="text" name="first_name" aria-label="user_first_name">
+            <!-- Description Input Field -->
+            <label for="last_name">Last Name: </label>
+            <input type="text" name="last_name" aria-label="user_last_name">
+            <br><br>
+            <!-- Release Date Input Field -->
+            <label for="email">Email Address: </label>
+            <input type="email" name="email" aria-label="user_email">
+            <!-- Duration Input Field -->
+            <label for="password">Password: </label>
+            <input type="password" name="password"  form- aria-label="user_password">
+            <br>
+            <!-- Submit Button -->
+            <input type="submit" id="create" value="Become Dope." aria-label="create_user">
+        </form>
+    </div>
+    <h2>Already Dope?</h2>
+    <form action='/login' method="POST">
+        {% csrf_token %}
+        <input type="submit" id="login" value="Prove It." aria-label="login">
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+</body>
+</html>
