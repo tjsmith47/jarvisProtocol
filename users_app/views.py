@@ -1,140 +1,111 @@
-#from typing import NewType
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import User, Machine
 import bcrypt
 
-
+#localhost:8000/
 def index(request):
+    return redirect('/home')
+
+#localhost:8000/home
+def home(request):
     context = {
         'all_users':User.objects.all(),
     }
     return render(request, 'index.html', context)
 
+#localhost:8000/login
 def login(request):
     errors = User.objects.login_validator(request.POST)
     if len(errors) > 0:
         for value in errors.values():
             messages.error(request, value)
-        return redirect(f'/')
-    else:
-        logged_user = User.objects.get(id=request.session['user_id'])
-        request.session['user_id']=logged_user.id
         return redirect('/')
+    else:
+        logged_user = User.objects.get(email=request.POST['email'])
+        #user_id=logged_user.id
+        request.session['user_id']=logged_user.id
+        return redirect('/dashboard')
 
-def register(request):
-    print(f'CREATE: {request.POST}')
+def success(request):
     if request.method == "GET":
         return redirect('/')
+    context = {
+        'user' : User.objects.get(id=request.session['user_id']),
+    }
+    return render(request, 'success.html', context)
+
+#localhost:8000/create
+def register(request):
+    if request.method == "GET":
+        return redirect('/')
+    print(f'VALIDATING: {request.POST}')
     errors = User.objects.update_validator(request.POST)
     if len(errors) > 0:
+        print(f'FAILED: {request.POST}')
+        request.session['first_name'] = request.POST['new_first_name'],
+        request.session['last_name'] = request.POST['new_last_name'],
+        request.session['email'] = request.POST['new_email'],
+        request.session['password'] = request.POST['new_password'],
         for value in errors.values():
             messages.error(request, value)
-        return redirect(f'/')
+        return redirect('/home')
     else:
-        password = request.POST['password']
+        password = request.POST['new_password']
         pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
-        logged_user = User.objects.create(email=request.POST['email'], password=pw_hash)
-        if bcrypt.checkpw(request.POST['password'].encode(), logged_user.password.encode()):
-            request.session['user_id'] = logged_user.id
-            return redirect('/dashboard')
         new_user = User.objects.create(
-            first_name = request.POST['first_name'],
-            last_name = request.POST['last_name'],
-            email = request.POST['email'],
-            password = request.POST['password'],
-            admin = request.POST['admin'],
+            first_name = request.POST['new_first_name'],
+            last_name = request.POST['new_last_name'],
+            email = request.POST['new_email'],
+            password = pw_hash,
         )
-        request.session['user_id']=new_user.id
-    return render(request, 'dashboard.html', new_user)
+        print(f'CREATE: {request.POST}')
+        request.session.flush()
+        user_id = new_user.id
+        request.session['user_id'] = user_id
+        return redirect(f'/{user_id}/success')
 
-def authenticate(request):
-    User.objects.create(
-        first_name=request.POST['first_name'],
-        last_name=request.POST['last_name'],
-        email=request.POST['email'],
-        password=request.POST['password']
-        )
-    return redirect('/')
-
-def dashboard(request, logged_user):
+#localhost:8000/<user_id>/dashboard
+def dashboard(request):
     context = {
+        'user' : User.objects.get(id=request.session['user_id']),
         'all_machines': Machine.objects.all(),
     }
-    logged_user = User.objects.get(id=request.session['user_id'])
-    request.session['user_id']= logged_user.id
-    return render(request, 'dashboard.html', context, logged_user)
+    return render(request, 'dashboard.html', context)
 
-def update(request, logged_user):
-    logged_user = User.objects.get(id=request.session['user_id'])
-    if request.method == "POST":
-        return redirect('/edit')
-    # create object
-    if 'user_id' not in request.session:
-        return redirect('/landing')
+#localhost:8000/<user_id>/edit
+def edit(request):
+    context = {
+        'user' : User.objects.get(id=request.session['user_id']),
+    }
+    return render(request, 'edit.html', context)
+
+#localhost:8000/<user_id>/update
+def update(request, user_id):
     #instance = get instance
+    logged_user = User.objects.get(id=user_id)
+    if 'user_id' not in request.session:
+        return redirect('/')
+    if request.method == "GET":
+        return render(request, 'edit.html', user_id)
     errors = User.objects.update_validator(request.POST)
-    # if errors are present:
+    # if errors are present
     if len(errors) > 0:
         for value in errors.values():
             messages.error(request, value)
-        return redirect('/')
-    # if errors not present.
+        return redirect('/update')
+    # if errors not present
     else:
-        logged_user = User.objects.get(id = id)
+        logged_user = User.objects.get(id=request.session['user_id'])
         logged_user.first_name = request.POST['first_name'],
         logged_user.last_name = request.POST['last_name'],
         logged_user.email = request.POST['email'],
         logged_user.password = request.POST['password'],
-        logged_user.admin = request.POST['admin'],
         logged_user.save()
-        return render(request, 'dashboard.html', logged_user)
+        user_id = logged_user.id
+        return redirect(f'{user_id}/dashboard')
 
+#localhost:8000/logout
 def logout(request):
     request.session.flush()
     return redirect('/')
-
-''' def login(request):
-    user = User.objects.filter(email=request.POST['email'])
-    if user:
-    validate_
-        logged_user = user[0]
-        password = request.POST['password']
-        pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
-        User.objects.create(email=request.POST['email'], password=pw_hash)
-        if bcrypt.checkpw(request.POST['password'].encode(), logged_user.password.encode()):
-            request.session['user_id'] = logged_user.id
-            return redirect('/dashboard')
-    return redirect('/') 
-    
-
-logged_user = Users.objects.get(id=request.session['user_id'])
-
-<input type="text" name="first_name" value="{{user.id}}" aria-label="user_first_name"> 
-
-    email = User.object.filter(email=request.POST['email'])
-    if email:
-        #ensure that email exists in DB
-        logged_user = email[0]
-        #ensure that the password provided belongs to the user
-        if bcrypt.checkpw(request.POST['password'].encode(), logged_user.password.encode()):
-            #log user in
-            request.session['user_id']=user.id
-            #if bcrypt.checkpw(request.POST['password'].encode(). logged_user.password.encode())
-            return redirect('/dashboard')
-    return redirect('/')
-
-
-index
-validate_login
-
-create
-update
-register
-login
-logout
-edit
-update
-destroy
-
-'''

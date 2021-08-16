@@ -56,6 +56,11 @@ em {
     margin:0 auto;
     width:60%;
 }
+.btn-group {
+    border: 1.5px solid black;
+    border-radius: 3px;
+    margin: 5px;
+}
 #button1, #button2 {
     width:75%;
     margin:0 auto;

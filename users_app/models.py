@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib import messages
 import re, bcrypt
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.+_-]+\.[a-zA-Z]+$')
@@ -8,27 +7,30 @@ class UserManager(models.Manager):
     def registration_validator(self, postData):
         errors = {}
         email = User.objects.filter(email=postData['email'])
-        if len(postData['new_first_name']) < 3:
-            errors['email'] = "First name must be at least 2 characters long."
-        if len(postData['new_last_name']) < 3:
-            errors['email'] = "Last name must be at least 2 characters long."
         if email:
             errors['unique'] = 'Email already in use.'
-        if not EMAIL_REGEX.match(postData['email']):
+        if not EMAIL_REGEX.match(postData['new_email']):
             errors['badEmail'] = "Invalid email address!"
-        if postData['password'] != postData['conf_password']:
+        if len(postData['new_first_name']) < 3:
+            errors['first'] = "First name must be at least 2 characters long."
+        if len(postData['new_last_name']) < 3:
+            errors['last'] = "Last name must be at least 2 characters long."
+        if len(postData['new_password']) < 8:
+            errors['badPass'] = "Password must be at least 8 characters long."
+        if postData['new_password'] != postData['conf_password']:
             errors['pass'] = "Passwords don't match!"
-        if len(postData['password']) < 8:
-            errors['bad_pass'] = "Password must be at least 8 characters long."
         return errors
     def update_validator(self, postData):
         errors = {}
+        email = User.objects.filter(email=postData['email'])
+        if len(email) > 1:
+            errors['unique'] = 'Email already in use. Please choose another'
         if not EMAIL_REGEX.match(postData['email']):
             errors['badEmail'] = "Invalid email address!"
         if postData['password'] != postData['conf_password']:
             errors['pass'] = "Passwords don't match!"
         if len(postData['password']) < 8:
-            errors['bad_pass'] = "Password must be at least 8 characters long."
+            errors['badPass'] = "Password must be at least 8 characters long."
         if len(postData['email']) < 3:
             errors['email'] = "Name must be at least 3 characters long."
         """ if postData['admin'] != True or postData['admin'] != False:
