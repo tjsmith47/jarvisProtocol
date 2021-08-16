@@ -62,13 +62,8 @@ def dashboard(request, logged_user):
         'all_machines': Machine.objects.all(),
     }
     logged_user = User.objects.get(id=request.session['user_id'])
-    request.session['user_id']='new_user.id'
+    request.session['user_id']= logged_user.id
     return render(request, 'dashboard.html', context, logged_user)
-
-def register(request):
-    if request.method == "GET":
-        #POST ---
-        pass
 
 def update(request, logged_user):
     logged_user = User.objects.get(id=request.session['user_id'])

@@ -8,20 +8,32 @@ class UserManager(models.Manager):
     def registration_validator(self, postData):
         errors = {}
         email = User.objects.filter(email=postData['email'])
+        if len(postData['new_first_name']) < 3:
+            errors['email'] = "First name must be at least 2 characters long."
+        if len(postData['new_last_name']) < 3:
+            errors['email'] = "Last name must be at least 2 characters long."
         if email:
             errors['unique'] = 'Email already in use.'
         if not EMAIL_REGEX.match(postData['email']):
             errors['badEmail'] = "Invalid email address!"
-            if postData['password'] != postData['password-confirm']:
-                errors['pass'] = "Passwords don't match!"
+        if postData['password'] != postData['conf_password']:
+            errors['pass'] = "Passwords don't match!"
+        if len(postData['password']) < 8:
+            errors['bad_pass'] = "Password must be at least 8 characters long."
         return errors
     def update_validator(self, postData):
         errors = {}
+        if not EMAIL_REGEX.match(postData['email']):
+            errors['badEmail'] = "Invalid email address!"
+        if postData['password'] != postData['conf_password']:
+            errors['pass'] = "Passwords don't match!"
+        if len(postData['password']) < 8:
+            errors['bad_pass'] = "Password must be at least 8 characters long."
         if len(postData['email']) < 3:
             errors['email'] = "Name must be at least 3 characters long."
-        if postData['admin'] != True or postData['admin'] != False:
-            errors['admin'] = "Must select if petitioning for admin."
-            return errors
+        """ if postData['admin'] != True or postData['admin'] != False:
+            errors['admin'] = "Must select if petitioning for admin." """
+        return errors
     def login_validator(self, postData):
         errors = {}
         email = User.objects.filter(email=postData['email'])

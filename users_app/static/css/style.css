@@ -1,58 +1,64 @@
 * {
     color: white;
 }
-
 body {
     margin: auto;
     display: flex;
-    padding: 75px;
-    display: flex;
+    padding: 47px 125px;
     flex-flow: column;
     align-items: center;
     vertical-align: auto;
     justify-items: center;
     background-color: black;
 }
-
-.greeting, .register {
-    font-size: large;
+.main {
+    width: 67.5%;
 }
 h1, h2 {
     text-align: center;
     text-decoration:underline;
+    text-underline-offset: 3px;
+}
+h1 {
+    color: red;
+    text-decoration-color: white;
+    font-size: 3.47em;
+}
+h2 {
+    margin-bottom:15px;
+    margin-top:-5px;
+    text-decoration-color: red;
 }
 form, table {
-    margin: auto;
+    margin: 0 auto;
+    width: 87.5%;
     padding: 20px;
-    font-size: 1.5em;
+    font-size: 1.175em;
     text-align: center;
     align-items: center;
-    border: 5px solid white;
-    justify-content:space-between;
+    border: 4px solid white;
+    justify-content:space-evenly;
 }
-form {
-    display: inline-block;
-    justify-content:space-between;
-}
-th, td {
-    padding: 3px 10px;
-}
-label {
-    text-align: flex-start;
-}
-input {
-    align-self:flex-end;
-    border: 1px solid white;
-    padding: 5px;
+table {
+    margin-top: 7.5px;
 }
 em {
     display: inline-flex;
-    margin: 20px;
-    margin-top: 40px;
-    width: 50%;
-    border: 3px solid white;
+    margin: 10px 0px 10px 0px;
+    width:100%;
+    border: 3px solid red;
 }
-#create {
-    font-size: medium;
-    margin-top: 1em;
+.register {
+    margin:0 auto;
+    width:87.5%;
+}
+.login{
+    margin:0 auto;
+    width:60%;
+}
+#button1, #button2 {
+    width:75%;
+    margin:0 auto;
+    padding:5px;
+    margin-top:-5px;
 }
