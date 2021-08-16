@@ -1,18 +1,17 @@
 * {
     color: white;
-    background-color: black;
 }
 
 body {
     margin: auto;
     display: flex;
-    padding: 100px;
+    padding: 75px;
     display: flex;
     flex-flow: column;
     align-items: center;
     vertical-align: auto;
     justify-items: center;
-    /* background-color: black; */
+    background-color: black;
 }
 
 .greeting, .register {
@@ -22,19 +21,13 @@ h1, h2 {
     text-align: center;
     text-decoration:underline;
 }
-/* h2 {
-    font-size: larger;
-} */
 form, table {
     margin: auto;
-    padding: 25px;
+    padding: 20px;
     font-size: 1.5em;
     text-align: center;
     align-items: center;
     border: 5px solid white;
-/*     display: inline-flex;
-    vertical-align: center;
-    flex-flow: column; */
     justify-content:space-between;
 }
 form {
@@ -42,13 +35,13 @@ form {
     justify-content:space-between;
 }
 th, td {
-    padding: 10px;
+    padding: 3px 10px;
 }
 label {
     text-align: flex-start;
 }
 input {
-    /* align-self:flex-end; */
+    align-self:flex-end;
     border: 1px solid white;
     padding: 5px;
 }
