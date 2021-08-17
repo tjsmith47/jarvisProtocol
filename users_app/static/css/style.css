@@ -31,7 +31,7 @@ h2 {
     text-decoration-color: red;
 }
 form, table {
-    margin: 0 auto;
+    margin: auto;
     width: 87.5%;
     padding: 20px;
     font-size: 1.175em;
@@ -50,7 +50,7 @@ em {
     border: 3px solid red;
 }
 .register {
-    margin:0 auto;
+    margin:auto;
     width:87.5%;
 }
 .login{
@@ -62,15 +62,15 @@ em {
     border-radius: 3px;
     margin: 5px;
 }
-ul {
+
+.container {
     color:white;
-    margin:auto;
-    display: block;
-    /* justify-content: center; */
-    justify-self: center;
-    justify-items:center;
-    align-items:center;
-    justify-content:space-around;
+    display: flex;
+    text-align: left;
+    align-items: center;
+    vertical-align: top;
+    list-style-position:inside;
+    justify-content: space-around;
 }
 #button1, #button2 {
     width:75%;

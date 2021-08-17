@@ -42,15 +42,15 @@
         <div class="register">
             <em id="em2"></em>
             <h2>Become Family!</h2>
+            <div class="container">
             {% if messages %}
-            <ul class="messages">
-            <div class="container center">
-                {% for message in messages %}
-                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
             </div>
-            </ul>
-            {% endif %}
             <form action='/create' method='POST' class="form-group">
                 {% csrf_token %}
                 <div class="row g-3 align-items-center">
