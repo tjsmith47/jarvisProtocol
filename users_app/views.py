@@ -20,7 +20,7 @@ def login(request):
     if len(errors) > 0:
         for value in errors.values():
             messages.error(request, value)
-        return redirect('/')
+        return redirect('/home')
     else:
         logged_user = User.objects.get(email=request.POST['email'])
         #user_id=logged_user.id
@@ -38,9 +38,9 @@ def success(request):
 #localhost:8000/create
 def register(request):
     if request.method == "GET":
-        return redirect('/')
+        return redirect('/home')
     print(f'VALIDATING: {request.POST}')
-    errors = User.objects.update_validator(request.POST)
+    errors = User.objects.registration_validator(request.POST)
     if len(errors) > 0:
         print(f'FAILED: {request.POST}')
         request.session['first_name'] = request.POST['new_first_name'],
@@ -52,7 +52,7 @@ def register(request):
         return redirect('/home')
     else:
         password = request.POST['new_password']
-        pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+        pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
         new_user = User.objects.create(
             first_name = request.POST['new_first_name'],
             last_name = request.POST['new_last_name'],
@@ -103,6 +103,7 @@ def update(request, user_id):
         logged_user.password = request.POST['password'],
         logged_user.save()
         user_id = logged_user.id
+        messages.success(request, "User information successfully updated")
         return redirect(f'{user_id}/dashboard')
 
 #localhost:8000/logout

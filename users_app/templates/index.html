@@ -43,10 +43,12 @@
             <em id="em2"></em>
             <h2>Become Family!</h2>
             {% if messages %}
-            <ul class="message">
-                {% for messages in messages %}
+            <ul class="messages">
+            <div class="container center">
+                {% for message in messages %}
                     <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
                 {% endfor %}
+            </div>
             </ul>
             {% endif %}
             <form action='/create' method='POST' class="form-group">

@@ -28,9 +28,9 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost']
+#INTERNAL_IPS = ['127.0.0.1', '192.168.4.187']
 
 # Application definition
-
 INSTALLED_APPS = [
     'users_app',
     'django.contrib.admin',
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -47,9 +48,12 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+#SHOW_TOOLBAR_CALLBACK = 'debug_toolbar.middleware.show_toolbar'
 
 ROOT_URLCONF = 'single_model_orm.urls'
 
@@ -101,6 +105,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
@@ -121,6 +131,9 @@ USE_TZ = True
 
 STATIC_URL = '/users_app/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "users_app/static/")
+#Static File Resolution to 'Cross-Origin Request Blocked
+#NGINX - add_header Access-Control-Allow-Origin http://jarvisprotocol.one;
+#Apache2 - Header add Access-Control-Allow-Origin http://jarvisprotocol.one
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

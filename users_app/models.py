@@ -6,7 +6,7 @@ EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.+_-]+\.[a-zA-Z]+$')
 class UserManager(models.Manager):
     def registration_validator(self, postData):
         errors = {}
-        email = User.objects.filter(email=postData['email'])
+        email = User.objects.filter(email=postData['new_email'])
         if email:
             errors['unique'] = 'Email already in use.'
         if not EMAIL_REGEX.match(postData['new_email']):
@@ -40,10 +40,10 @@ class UserManager(models.Manager):
         errors = {}
         email = User.objects.filter(email=postData['email'])
         if not email:
-            errors['email'] = "Invalid Credentials"
+            errors['email'] = "You are not in the database"
         else:
             logged_user = email[0]
-            if not bcrypt.checkpw(postData['password'].encode(), logged_user.password.encode()):
+            if not bcrypt.checkpw(postData['password'].encode(), logged_user.password):
                 errors['creds'] = "Invalid Credentials"
         return errors
 
@@ -59,11 +59,11 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     def __repr__(self):
         if self.admin == True:
-            return "ADMIN USER: {} {} - Email: {} - password: {}".format(
+            return "ADMIN USER: {} {} | Email: {} | Password: {}".format(
                 self.first_name, self.last_name, self.email, self.password
                 )
         else:
-            return "Name: {} {} - Email: {} - password: {}".format(
+            return "Name: {} {} | Email: {} | Password: {}".format(
                 self.first_name, self.last_name, self.email, self.password
                 )
     objects = UserManager()

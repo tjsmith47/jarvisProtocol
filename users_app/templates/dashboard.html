@@ -14,8 +14,9 @@
 <body>
     <div class="main">
         <div class="greeting">
-            <h1>You are now a part of the Kewl Kids Crew, {{ user.first_name }}.</h1>
-            <h2>What ever will you do?</h2>
+            <h1>Welcome, {{ user.first_name }}, to Jarvis Protocol.</h1>
+            <h2>There's so much room for activities... </h2>
+            <h2>what shall we do?</h2>
         </div>
         <div class="dashboard">
             
@@ -24,5 +25,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+    <footer class="btn-group" role="group" id="logout" aria-label="Basic mixed styles example">
+        <a href="/logout" class="btn btn-danger">Log Out</a> 
+    </footer>
 </body>
 </html>

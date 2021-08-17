@@ -10,6 +10,7 @@ body {
     vertical-align: auto;
     justify-items: center;
     background-color: black;
+    height:90%;
 }
 .main {
     width: 67.5%;
@@ -61,9 +62,22 @@ em {
     border-radius: 3px;
     margin: 5px;
 }
+ul {
+    color:white;
+    margin:auto;
+    display: block;
+    /* justify-content: center; */
+    justify-self: center;
+    justify-items:center;
+    align-items:center;
+    justify-content:space-around;
+}
 #button1, #button2 {
     width:75%;
     margin:0 auto;
     padding:5px;
     margin-top:-5px;
+}
+footer {
+    align-items: bottom;
 }
