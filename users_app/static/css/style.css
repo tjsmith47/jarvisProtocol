@@ -13,7 +13,7 @@ body {
     height:90%;
 }
 .main {
-    width: 67.5%;
+    width: 66.6%;
 }
 h1, h2 {
     text-align: center;
@@ -23,7 +23,7 @@ h1, h2 {
 h1 {
     color: red;
     text-decoration-color: white;
-    font-size: 3.47em;
+    font-size: 3.5em;
 }
 h2 {
     margin-bottom:15px;
@@ -32,7 +32,7 @@ h2 {
 }
 form, table {
     margin: auto;
-    width: 87.5%;
+    width: 90%;
     padding: 20px;
     font-size: 1.175em;
     text-align: center;
@@ -55,7 +55,7 @@ em {
 }
 .login{
     margin:0 auto;
-    width:60%;
+    width:57%;
 }
 .btn-group {
     border: 1.5px solid black;
