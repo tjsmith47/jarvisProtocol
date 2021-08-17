@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import User, Machine
-import bcrypt
+import bcrypt 
 
 #localhost:8000/
 def index(request):
@@ -43,10 +43,6 @@ def register(request):
     errors = User.objects.registration_validator(request.POST)
     if len(errors) > 0:
         print(f'FAILED: {request.POST}')
-        request.session['first_name'] = request.POST['new_first_name'],
-        request.session['last_name'] = request.POST['new_last_name'],
-        request.session['email'] = request.POST['new_email'],
-        request.session['password'] = request.POST['new_password'],
         for value in errors.values():
             messages.error(request, value)
         return redirect('/home')
